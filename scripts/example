@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/_env"
+. "$HERE/_trap"
+
+function run () {
+	local TOOL=$1
+	pushd "$ROOT/$TOOL" > /dev/null
+	go run .
+	popd > /dev/null
+}
+
+run examples/hello-world

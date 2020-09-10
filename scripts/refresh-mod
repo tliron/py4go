@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/_env"
+
+rm --force "$ROOT/go.mod" "$ROOT/go.sum"
+
+cd "$ROOT"
+go mod init "$MODULE"
+
+"$HERE/build"
+
+go mod tidy

@@ -1,0 +1,22 @@
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+RESET='\033[0m'
+
+# Colored messages (blue is the default)
+# Examples:
+#   m "hello world"
+#   m "hello world" "$GREEN"
+function m () {
+	local COLOR=${2:-$BLUE}
+	echo -e "$COLOR$1$RESET"
+}
+
+function git_version () {
+	VERSION=$(git -C "$ROOT" describe --tags --always)
+	REVISION=$(git -C "$ROOT" rev-parse HEAD)
+	TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S %Z")
+	GO_VERSION=$(go version | { read _ _ v _; echo ${v#go}; })
+}

@@ -1,0 +1,12 @@
+
+_HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+
+. "$_HERE/_functions"
+
+MODULE=github.com/tliron/py4go
+
+ROOT=$(readlink --canonicalize "$_HERE/..")
+
+GOPATH=${GOPATH:-$HOME/go}
+
+export TMPDIR=/Depot/Temporary

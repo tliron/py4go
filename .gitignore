@@ -1,0 +1,4 @@
+.project
+__pycache__
+
+dist/

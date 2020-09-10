@@ -1,0 +1,32 @@
+
+function goodbye () {
+	local DURATION=$(date --date=@$(( "$(date +%s)" - "$TRAP_START_TIME" )) --utc +%T)
+	local CODE=$1
+	cd "$TRAP_DIR"
+	if [ "$CODE" == 0 ]; then
+		m "$(realpath --relative-to="$ROOT" "$0") succeeded! $DURATION" "$GREEN"
+	elif [ "$CODE" == abort ]; then
+		m "Aborted $(realpath --relative-to="$ROOT" "$0")! $DURATION" "$RED"
+	else
+		m "Oh no! $(realpath --relative-to="$ROOT" "$0") failed! $DURATION" "$RED"
+	fi
+}
+
+function trap_EXIT () {
+	local ERR=$?
+	goodbye "$ERR"
+	exit "$ERR"
+}
+
+function trap_INT () {
+	goodbye abort
+	trap - EXIT
+	exit 1
+}
+
+TRAP_DIR=$PWD
+TRAP_START_TIME=$(date +%s)
+
+trap trap_INT INT
+
+trap trap_EXIT EXIT

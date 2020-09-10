@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
+. "$HERE/_env"
+
+gofmt -w -s -e \
+	"$ROOT" \
+	"$ROOT/examples/hello-world/" \
+	"$ROOT/examples/hello-world/api"
+	
