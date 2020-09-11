@@ -1,5 +1,3 @@
-*Work in progress*
-
 py4go
 =====
 
