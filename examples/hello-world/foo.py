@@ -17,6 +17,12 @@ def say_name():
 def say_name_fast():
     print("Python >> The name is " + api.concat_fast("Tal", "Liron"))
 
+size = 0
+
+def grow(count):
+    global size
+    size += count
+
 class Person:
     def __init__(self, name):
         self.name = name

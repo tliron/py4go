@@ -75,7 +75,7 @@ be aware of:
   Go code will thus need to explicitly call `Release` on all Python references to ensure that they are
   garbage collected. Luckily, the `defer` keyword makes this easy enough in many circumstances.
 * Concurrency is a bit tricky in Python due to its infamous Global Interpreter Lock (GIL). If
-  you are calling Python code from a Goroutine make sure to call `python.SaveThreadState` and/or
+  you are calling Python code from a Goroutine make sure to call `python.SaveThreadState` and
   `python.EnsureGilState` as appropriate. See the examples for more detail.
 
 
