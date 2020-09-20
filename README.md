@@ -37,14 +37,21 @@ func main() {
     r, _ := hello.Call("myargument")
     defer r.Release()
     fmt.Printf("Returned: %s\n", r.String())
+
+    // Expose a Go function to Python via a C wrapper
+    // (Just use "import api" from Python)
+    api, _ := python.CreateModule("api")
+    defer api.Release()
+    api.AddModuleCFunctionNoArgs("my_function", C.api_my_function)
+    api.EnableModule()
 }
 ```
 
-See the [examples](examples/) directory for more detail.
+Calling Python code from Go is easy because Python is a dynamic language and CPython is an
+interpreted runtime. Exposing Go code to Python is more involved as it requires writing wrapper
+functions in C, which we omitted in the example above. See the [examples](examples/) directory for
+more detail.
 
-Generally speaking, calling Python code is easy but calling Go code from Python requires a lot more
-work, including writing embedded wrapper functions in C. Perhaps in the future we will be able to
-automate this.
 
 Caveats
 -------
