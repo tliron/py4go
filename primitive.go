@@ -156,11 +156,11 @@ func (self *Reference) IsUnicode() bool {
 }
 
 func (self *Reference) ToString() (string, error) {
-	if utf8string := C.PyUnicode_AsUTF8String(self.Object); utf8string != nil {
-		defer C.Py_DecRef(utf8string)
+	if utf8stringBytes := C.PyUnicode_AsUTF8String(self.Object); utf8stringBytes != nil {
+		defer C.Py_DecRef(utf8stringBytes)
 
-		if string_ := C.PyBytes_AsString(utf8string); string_ != nil {
-			return C.GoString(string_), nil
+		if utf8string := C.PyBytes_AsString(utf8stringBytes); utf8string != nil {
+			return C.GoString(utf8string), nil
 		} else {
 			return "", GetError()
 		}
@@ -245,6 +245,7 @@ func NewListRaw(size int) (*Reference, error) {
 }
 
 func (self *Reference) IsList() bool {
+	// More efficient to use the flag
 	return self.Type().HasFlag(C.Py_TPFLAGS_LIST_SUBCLASS)
 }
 

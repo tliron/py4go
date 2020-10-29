@@ -92,3 +92,6 @@ References
 * [go-python](https://github.com/sbinet/go-python) is a similar and more mature project for Python
   2.
 * [goPy](https://github.com/qur/gopy) is a much older project for Python 2.
+* [gopy](https://github.com/go-python/gopy) generates Python wrappers for Go functions.
+* [setuptools-golang](https://github.com/asottile/setuptools-golang) allows you to include Go
+  libraries in Python packages.
