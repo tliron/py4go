@@ -7,13 +7,13 @@ package api
 // 1) the more common PyCFunction ABI, which passes arguments as Python tuples and dicts, and
 // 2) the newer _PyCFunctionFast ABI, which passes arguments as a more efficient stack
 
-// Unfortunately we must use C and not Go because:
+// Unfortunately we must use C and not Go to write these functions because:
 // 1) the "PyArg_Parse_" functions all use variadic arguments, which are not supported by cgo, and
 // 2) the "PyArg_Parse_" functions unpack arguments to pointers, which we cannot implement in Go
 
 // Note: cgo exports cannot be in the same file as cgo preamble functions,
 // which is why this file cannot be combined with "go_.go"
-// and is also why must forward-declare the "go_" functions in the cgo preamble
+// and is also why must forward-declare the "go_" functions in the cgo preamble here
 
 // See:
 //   https://docs.python.org/3/c-api/arg.html

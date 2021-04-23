@@ -1,3 +1,3 @@
 module github.com/tliron/py4go
 
-go 1.15
+go 1.16

@@ -1,12 +1,12 @@
 package api
 
-// Here we add our "py_" functions to the module
+// Here we add our "py_" C functions to the module
 
-// Note that this file could potentially be combined with "py_.go", but we preferred separation
-// For that reason we must forward-declare the "py_" functions in the cgo preamble
+// Note that this file could have been combined with "py_.go", but we preferred a clean separation
+// The cost is that we must forward-declare the "py_" functions in the cgo preamble here
 
 import (
-	"github.com/tliron/py4go"
+	python "github.com/tliron/py4go"
 )
 
 /*

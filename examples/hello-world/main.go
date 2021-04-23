@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/tliron/py4go"
+	python "github.com/tliron/py4go"
 	"github.com/tliron/py4go/examples/hello-world/api"
 )
 
@@ -77,19 +77,19 @@ func concurrency(module *python.Reference) {
 	func() {
 		// Release Python's lock on our main thread, allowing other threads to execute
 		// (Without this our calls to "grow", from other threads, will block forever)
-		ts := python.SaveThreadState()
-		defer ts.Restore()
+		threadState := python.SaveThreadState()
+		defer threadState.Restore()
 
 		// Parallel work:
 
-		var wg sync.WaitGroup
-		defer wg.Wait()
+		var waitGroup sync.WaitGroup
+		defer waitGroup.Wait()
 
 		for i := 0; i < 5; i++ {
-			wg.Add(1)
+			waitGroup.Add(1)
 
 			go func() {
-				defer wg.Done()
+				defer waitGroup.Done()
 
 				for i := 0; i < 100; i++ {
 					// We must manually acquire Python's Global Interpreter Lock (GIL),
@@ -98,8 +98,8 @@ func concurrency(module *python.Reference) {
 					defer gs.Release()
 
 					// (Note: We could also have acquired the GIL outside of this for-loop;
-					// it's really up to us, how we want to balance concurrency with the cost
-					// of context switching)
+					// it's up to how we want to balance concurrency with the cost of context
+					// switching)
 
 					grow.Call(1)
 				}

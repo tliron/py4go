@@ -6,8 +6,8 @@ HERE=$(dirname "$(readlink --canonicalize "$BASH_SOURCE")")
 . "$HERE/_trap"
 
 function run () {
-	local TOOL=$1
-	pushd "$ROOT/$TOOL" > /dev/null
+	local NAME=$1
+	pushd "$ROOT/$NAME" > /dev/null
 	go run .
 	popd > /dev/null
 }

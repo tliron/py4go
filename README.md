@@ -8,9 +8,11 @@ Execute Python 3 code from within your Go program.
 
 With py4go you can also expose Go functions to be called from that Python code.
 
+To get started try running [`scripts/example`](scripts/example/).
 
-Example
--------
+
+Example Usage
+-------------
 
 ```go
 package main

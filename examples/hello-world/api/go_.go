@@ -10,8 +10,9 @@ import "C"
 
 //export go_api_sayGoodbye
 func go_api_sayGoodbye() {
-	// We could just export sayGoodbye directly because it has no arguments
-	// But for completion we are adding an export
+	// Note that we could have just exported sayGoodbye directly because it has no arguments,
+	// and thus nothing to convert, But for completion we are adding this straightforward
+	// wrapper
 	sayGoodbye()
 }
 
