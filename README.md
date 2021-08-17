@@ -8,7 +8,10 @@ Execute Python 3 code from within your Go program.
 
 With py4go you can also expose Go functions to be called from that Python code.
 
-To get started try running [`scripts/example`](scripts/example/).
+To get started try running [`scripts/example`](scripts/example/). Note that you need the Python
+development libraries. E.g. in Fedora:
+
+    sudo dnf install python3-devel
 
 
 Example Usage
