@@ -4,12 +4,21 @@ py4go
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go Report Card](https://goreportcard.com/badge/github.com/tliron/py4go)](https://goreportcard.com/report/github.com/tliron/py4go)
 
-Execute Python 3 code from within your Go program.
+Call Python 3 functions and methods from within your Go program while exposing Go functions and
+methods to Python.
 
-With py4go you can also expose Go functions to be called from that Python code.
+This is *not* an implementation of Python in Go. Rather, py4go works by embedding the CPython
+runtime into your Go program using [cgo](https://github.com/golang/go/wiki/cgo) functionality.
+
+The expected use cases are not low-latency integration, but rather *tight* bidirectional
+integration. You can combine the full Go ecosystem with the full Python ecosystem.
+
+Though you can achieve some integration by using Go's [exec](https://pkg.go.dev/os/exec)
+package to run `python`, with py4go you get fine-grained access to individual functions, objects,
+methods, and variables.
 
 To get started try running [`scripts/example`](scripts/example/). Note that you need the Python
-development libraries. E.g. in Fedora:
+development libraries installed. E.g. in Fedora:
 
     sudo dnf install python3-devel
 
@@ -52,25 +61,24 @@ func main() {
 }
 ```
 
-Calling Python code from Go is easy because Python is a dynamic language and CPython is an
-interpreted runtime. Exposing Go code to Python is more involved as it requires writing wrapper
-functions in C, which we omitted in the example above. See the [examples](examples/) directory for
-more detail.
+Calling Python code from Go is relatively straightforward because Python is a dynamic language and
+CPython is an interpreted runtime. Exposing Go code to Python is more involved as it requires writing
+wrapper functions in C, which we omitted in the example above. See the [examples](examples/) directory
+for more detail.
+
+In the future we are hoping to make this easier, perhaps via a C code generator based on static
+analysis of function signatures and types.
 
 
 Caveats
 -------
 
-This is *not* an implementation of Python in Go. Rather, py4go works by embedding CPython into your
-Go program using [cgo](https://github.com/golang/go/wiki/cgo) functionality. The advantage of this
-approach is that you are using the standard Python runtime and can thus make use of the entire
-ecosystem of Python libraries, including wrappers for C libraries. But there are several issues to
-be aware of:
+There are several issues to be aware of:
 
 * It's more difficult to distribute your Go program because you *must* have the CPython library
   available on the target operating system with a specific name. Because different operating systems
   have their own conventions for naming this library, to create a truly portable distribution it may
-  be best to distribute your program as a packaged container, e.g. using Flatpak or Docker.
+  be best to distribute your program as a packaged container, e.g. using Flatpak, Docker, or Snap.
 * It is similarly more difficult to *build* your Go program. We are using `pkg-config: python3-embed` to
   locate the CPython SDK, which works on Fedora-based operating systems. But, because where you
   *build* will determine the requirements for where you will *run*, it may be best to build on
