@@ -9,6 +9,7 @@ import (
 )
 
 /*
+#include "stdint.h"
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 */
@@ -193,7 +194,7 @@ func NewTuple(items ...interface{}) (*Reference, error) {
 }
 
 func NewTupleRaw(size int) (*Reference, error) {
-	if tuple := C.PyTuple_New(C.long(size)); tuple != nil {
+	if tuple := C.PyTuple_New(C.int64_t(size)); tuple != nil {
 		return NewReference(tuple), nil
 	} else {
 		return nil, GetError()
@@ -206,7 +207,7 @@ func (self *Reference) IsTuple() bool {
 }
 
 func (self *Reference) SetTupleItem(index int, item *Reference) error {
-	if C.PyTuple_SetItem(self.Object, C.long(index), item.Object) == 0 {
+	if C.PyTuple_SetItem(self.Object, C.int64_t(index), item.Object) == 0 {
 		return nil
 	} else {
 		return GetError()
@@ -237,7 +238,7 @@ func NewList(items ...interface{}) (*Reference, error) {
 }
 
 func NewListRaw(size int) (*Reference, error) {
-	if list := C.PyList_New(C.long(size)); list != nil {
+	if list := C.PyList_New(C.int64_t(size)); list != nil {
 		return NewReference(list), nil
 	} else {
 		return nil, GetError()
@@ -250,7 +251,7 @@ func (self *Reference) IsList() bool {
 }
 
 func (self *Reference) SetListItem(index int, item *Reference) error {
-	if C.PyList_SetItem(self.Object, C.long(index), item.Object) == 0 {
+	if C.PyList_SetItem(self.Object, C.int64_t(index), item.Object) == 0 {
 		return nil
 	} else {
 		return GetError()
@@ -331,7 +332,7 @@ func NewBytes(value []byte) (*Reference, error) {
 	value_ := C.CBytes(value)
 	defer C.free(value_) // TODO: check this!
 
-	if bytes := C.PyBytes_FromStringAndSize((*C.char)(value_), C.long(size)); bytes != nil {
+	if bytes := C.PyBytes_FromStringAndSize((*C.char)(value_), C.int64_t(size)); bytes != nil {
 		return NewReference(bytes), nil
 	} else {
 		return nil, GetError()
@@ -371,7 +372,7 @@ func NewByteArray(value []byte) (*Reference, error) {
 	value_ := C.CBytes(value)
 	defer C.free(value_) // TODO: check this!
 
-	if byteArray := C.PyByteArray_FromStringAndSize((*C.char)(value_), C.long(size)); byteArray != nil {
+	if byteArray := C.PyByteArray_FromStringAndSize((*C.char)(value_), C.int64_t(size)); byteArray != nil {
 		return NewReference(byteArray), nil
 	} else {
 		return nil, GetError()
